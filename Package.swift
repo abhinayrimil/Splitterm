@@ -9,8 +9,9 @@ let package = Package(
         .executable(name: "Splitterm", targets: ["Splitterm"]),
     ],
     dependencies: [
-        // SwiftTerm 1.20.0, vendored with one change: Shaders.metal is a .copy resource, so no `metal`
-        // compiler (full Xcode) is needed. Stay on 1.20.x: 1.99+ needs the Swift 6.2 toolchain.
+        // SwiftTerm 1.20.0, vendored with local changes: Shaders.metal is a .copy resource, so no `metal`
+        // compiler (full Xcode) is needed; Sixel input is bounded; Kitty file transmission is off.
+        // Stay on 1.20.x: 1.99+ needs the Swift 6.2 toolchain.
         .package(path: "Vendor/SwiftTerm"),
     ],
     targets: [

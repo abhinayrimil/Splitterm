@@ -40,7 +40,7 @@ class SixelDcsHandler : DcsHandler {
             
             let digit = Int(c) - 48
             if let existing = result {
-                result = 10 * existing + digit
+                result = 10 * min(existing, 99_999) + digit // cannot overflow on hostile input
             } else {
                 result = digit
             }
@@ -78,6 +78,7 @@ class SixelDcsHandler : DcsHandler {
     }
         
     let poundChar: UInt8 = 0x23 /* # */
+    static let maxDimension = 4096
     
     func unhook () {
         var p = 0
@@ -116,7 +117,10 @@ class SixelDcsHandler : DcsHandler {
         // new-line (-).  Include the cursor's final position in that case so
         // the pixel buffer covers the last band that was scanned.
         maxX = max(maxX, x)
-        
+
+        // Refuse oversized images instead of allocating whatever the stream asks for.
+        guard maxX <= Self.maxDimension, maxY <= Self.maxDimension else { return }
+
         // Allocate the buffer, and parse again, this time
         // plotting the data into the pixels buffer
         pixels = Array.init(repeating: 0, count: maxX*maxY*4)
@@ -224,7 +228,7 @@ class SixelDcsHandler : DcsHandler {
                     // ignore repeat
                     continue
                 }
-                reps = value
+                reps = min(value, Self.maxDimension)
 
             // "$"  (dollar sign) character moves the sixel "cursor" to the "beginning of the current (same) line
             case 36:
@@ -299,7 +303,7 @@ class SixelDcsHandler : DcsHandler {
                     // ignore repeat
                     continue
                 }
-                reps = value
+                reps = min(value, Self.maxDimension)
 
             // "$"  (dollar sign) character moves the sixel "cursor" to the "beginning of the current (same) line
             case 36:

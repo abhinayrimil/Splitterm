@@ -634,12 +634,8 @@ extension Terminal {
                 return (nil, "EINVAL: bad payload")
             }
             return (payload, nil)
-        case "f":
-            return loadKittyFilePayload(control: control, base64Payload: base64Payload, temporary: false)
-        case "t":
-            return loadKittyFilePayload(control: control, base64Payload: base64Payload, temporary: true)
-        case "s":
-            return loadKittySharedMemoryPayload(control: control, base64Payload: base64Payload)
+        // Splitterm: file ("f"), temp-file ("t") and shared-memory ("s") transmission are
+        // disabled because any program's output could make the terminal read or delete local files.
         default:
             return (nil, "ENOTSUP: unsupported transmission")
         }
