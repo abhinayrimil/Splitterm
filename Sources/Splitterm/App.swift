@@ -250,10 +250,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
                 // Keep our own default profile unless Terminator's was customised.
                 cfg.profiles[name == "default" ? "terminator-default" : name] = p
             }
-            for (name, l) in result.layouts { cfg.layouts[name] = l }
+            for (name, l) in result.layouts {
+                // The startup layout runs its commands unprompted, so an import must never become it.
+                let isStartup = name == "default" || name == cfg.global.startupLayout
+                cfg.layouts[isStartup ? "terminator-\(name)" : name] = l
+            }
         }
         var msg = "Imported \(result.profiles.count) profile(s) and \(result.layouts.count) layout(s)."
         if result.profiles["default"] != nil { msg += " Terminator's default profile was saved as “terminator-default”." }
+        if result.layouts["default"] != nil { msg += " Terminator's default layout was saved as “terminator-default” and won't open at launch." }
         if !result.warnings.isEmpty { msg += "\n\nSkipped:\n" + result.warnings.joined(separator: "\n") }
         Prompt.info("Terminator config imported", msg)
     }

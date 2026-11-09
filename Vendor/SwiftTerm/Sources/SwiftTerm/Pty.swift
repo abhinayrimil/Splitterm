@@ -106,6 +106,8 @@ public class PseudoTerminalHelpers {
             _ = execve(cExecutable, cArgs.base, cEnv.base)
             _exit(127)
         }
+        // Splitterm: later children must not inherit this master, or they could read and type into this terminal.
+        _ = fcntl(master, F_SETFD, FD_CLOEXEC)
         return (pid, master)
     }
     

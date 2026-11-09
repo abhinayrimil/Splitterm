@@ -153,7 +153,7 @@ The GitHub Actions workflow in `.github/workflows/build.yml` runs the tests and 
 | `Tests/SplittermCoreTests` | Unit tests |
 | `Resources` | Info.plist, entitlements, icon |
 | `scripts` | `build-app.sh` (build, sign, DMG, notarise), `splitterm` CLI launcher |
-| `Vendor/SwiftTerm` | SwiftTerm 1.20.0, trimmed. Local changes: `Shaders.metal` is a copied resource so no `metal` compiler is needed, Sixel input is bounded, and Kitty graphics can't load local files |
+| `Vendor/SwiftTerm` | SwiftTerm 1.20.0, trimmed. Local changes: `Shaders.metal` is a copied resource so no `metal` compiler is needed, Sixel and Kitty decompression input is bounded, Kitty graphics can't load local files, and terminals don't inherit each other's PTY handles |
 
 ## Licence
 

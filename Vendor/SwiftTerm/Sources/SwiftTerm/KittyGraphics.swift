@@ -1912,12 +1912,16 @@ extension Terminal {
                     }
                     stream.dst_ptr = dstBase
                     stream.dst_size = dstSize
-                    return compression_stream_process(&stream, 0)
+                    // Splitterm: the whole input is here, so finalize; without it truncated data never ends.
+                    return compression_stream_process(&stream, Int32(COMPRESSION_STREAM_FINALIZE.rawValue))
                 }
                 let produced = dstSize - stream.dst_size
                 if produced > 0 {
                     output.append(dstBuffer, count: produced)
                 }
+                // Splitterm: stop as soon as the limit is passed, and never spin without progress.
+                guard output.count <= Terminal.kittyMaxImageBytes else { return nil }
+                if status == COMPRESSION_STATUS_OK && produced == 0 { return nil }
 
                 switch status {
                 case COMPRESSION_STATUS_END:
