@@ -11,6 +11,7 @@ Written in Swift with AppKit and [SwiftTerm](https://github.com/migueldeicaza/Sw
 **From source** (needs the Xcode Command Line Tools; `make test` needs full Xcode for XCTest):
 
 ```sh
+git clone https://github.com/abhinayrimil/Splitterm.git && cd Splitterm
 make install          # builds dist/Splitterm.app + dist/Splitterm-1.0.0.dmg and copies the app to /Applications
 ```
 
@@ -72,7 +73,7 @@ Splitterm broadcasts the bytes the terminal produces, not raw key events, so acc
 
 Arrange windows, tabs and splits, then **Shell → Save Layout…** (⇧⌘S). A layout records each window's size and position, tabs and their titles, every split ratio, and per terminal its profile, group, title and current folder. In **Settings → Layouts** you can add a command for each terminal; it is typed into the shell after it starts, so the shell stays open afterwards. Saving over an existing layout keeps those commands.
 
-Open layouts from the **Layout Launcher** (⇧⌘L), from the command line (`splitterm --layout NAME`), or via `splitterm://layout/NAME`. A layout named `default` opens at launch (change this in Settings → General).
+Open layouts from the **Layout Launcher** (⇧⌘L), from the command line (`splitterm --layout NAME`), or via `splitterm://layout/NAME` (Splitterm asks first if the layout runs commands). A layout named `default` opens at launch (change this in Settings → General).
 
 ### Profiles
 
@@ -118,6 +119,18 @@ Everything lives in `~/.config/splitterm/config.json` (or `$XDG_CONFIG_HOME/spli
 - Keybinding values look like `cmd+shift+d`, `ctrl+opt+left`, `f5`. An empty string unbinds an action. Action names follow Terminator's (`split_right`, `go_left`, `group_tab`, `broadcast_all`…); Settings → Keyboard lists them all.
 - Shortcuts match physical key positions on a US layout.
 
+## Security
+
+Terminal output and web links are treated as untrusted:
+
+- `splitterm://` links ask before opening a folder or profile, or running a layout's commands.
+- Pasted text has escape characters removed, so it can't break out of bracketed paste.
+- Programs can't read or replace the clipboard through OSC 52, so tmux and Neovim clipboard integration over OSC 52 won't work.
+- ⌘-click opens only `http`, `https` and `mailto` links.
+- **Secure Keyboard Entry** is on by default (Splitterm menu). It stops other apps seeing what you type, and also blocks their global hotkeys while Splitterm is in front.
+- Programs run inside Splitterm can't use the camera or microphone.
+- `config.json` is readable only by you.
+
 ## Distribution
 
 Ad-hoc signing (the default) is enough for your own Mac. For other Macs you need an Apple Developer ID:
@@ -140,7 +153,8 @@ The GitHub Actions workflow in `.github/workflows/build.yml` runs the tests and 
 | `Tests/SplittermCoreTests` | Unit tests |
 | `Resources` | Info.plist, entitlements, icon |
 | `scripts` | `build-app.sh` (build, sign, DMG, notarise), `splitterm` CLI launcher |
+| `Vendor/SwiftTerm` | SwiftTerm 1.20.0, trimmed, with `Shaders.metal` as a copied resource so no `metal` compiler is needed |
 
 ## Licence
 
-Splitterm's code is yours to license as you choose. SwiftTerm is MIT licensed. Terminator is GPL v2; none of its code is included here.
+Splitterm is released under the [MIT License](LICENSE). SwiftTerm is MIT licensed; see [its licence](Vendor/SwiftTerm/LICENSE). Terminator is GPL v2; none of its code is included here.
