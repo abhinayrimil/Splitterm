@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleDisplayName</key>
+    <string>Splitterm</string>
+    <key>CFBundleExecutable</key>
+    <string>Splitterm</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+    <key>CFBundleIdentifier</key>
+    <string>__BUNDLE_ID__</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>Splitterm</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>__VERSION__</string>
+    <key>CFBundleVersion</key>
+    <string>__BUILD__</string>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.developer-tools</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+    <key>NSSupportsAutomaticTermination</key>
+    <false/>
+    <key>NSSupportsSuddenTermination</key>
+    <false/>
+    <key>NSHumanReadableCopyright</key>
+    <string>Splitterm — a Terminator-style terminal for macOS.</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>Splitterm URL</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>splitterm</string>
+            </array>
+        </dict>
+    </array>
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>Folder</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.folder</string>
+            </array>
+        </dict>
+    </array>
+    <!-- Programs run in the terminal inherit these prompts; without the strings macOS denies silently. -->
+    <key>NSAppleEventsUsageDescription</key>
+    <string>Programs you run in Splitterm may want to control other apps.</string>
+    <key>NSDesktopFolderUsageDescription</key>
+    <string>Programs you run in Splitterm may need to read files on your Desktop.</string>
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>Programs you run in Splitterm may need to read files in Documents.</string>
+    <key>NSDownloadsFolderUsageDescription</key>
+    <string>Programs you run in Splitterm may need to read files in Downloads.</string>
+    <key>NSRemovableVolumesUsageDescription</key>
+    <string>Programs you run in Splitterm may need to read files on removable drives.</string>
+    <key>NSNetworkVolumesUsageDescription</key>
+    <string>Programs you run in Splitterm may need to read files on network drives.</string>
+</dict>
+</plist>
