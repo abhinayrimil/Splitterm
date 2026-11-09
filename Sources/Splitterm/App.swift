@@ -252,8 +252,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
             }
             for (name, l) in result.layouts {
                 // The startup layout runs its commands unprompted, so an import must never become it.
-                let isStartup = name == "default" || name == cfg.global.startupLayout
-                cfg.layouts[isStartup ? "terminator-\(name)" : name] = l
+                var target = name
+                while target == "default" || target == cfg.global.startupLayout { target = "terminator-\(target)" }
+                cfg.layouts[target] = l
             }
         }
         var msg = "Imported \(result.profiles.count) profile(s) and \(result.layouts.count) layout(s)."
