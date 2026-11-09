@@ -89,6 +89,33 @@ final class LayoutTests: XCTestCase {
     }
 }
 
+final class TerminalSchemeTests: XCTestCase {
+    func testEverySchemeIsValidAndMatchesAfterApplying() {
+        XCTAssertEqual(Set(TerminalScheme.all.map { $0.name }).count, TerminalScheme.all.count)
+        for scheme in TerminalScheme.all {
+            XCTAssertEqual(scheme.palette.count, 16, scheme.name)
+            for hex in [scheme.foreground, scheme.background, scheme.cursor, scheme.selection] + scheme.palette {
+                XCTAssertNotNil(RGB(hex: hex), scheme.name)
+            }
+            var p = Profile()
+            p.opacity = 0.5
+            scheme.apply(to: &p)
+            XCTAssertTrue(scheme.matches(p), scheme.name)
+            XCTAssertEqual(p.opacity, 0.5)
+        }
+    }
+
+    func testDefaultProfileMatchesDefaultScheme() {
+        XCTAssertEqual(TerminalScheme.all.first { $0.matches(Profile()) }?.name, "Splitterm")
+    }
+
+    func testHandEditedColourIsNoLongerAScheme() {
+        var p = Profile()
+        p.foreground = "#123456"
+        XCTAssertNil(TerminalScheme.all.first { $0.matches(p) })
+    }
+}
+
 final class InputSafetyTests: XCTestCase {
     func testOnlyWebLinksOpen() {
         XCTAssertTrue(InputSafety.isOpenableLink("HTTPS://example.com"))

@@ -79,6 +79,8 @@ Open layouts from the **Layout Launcher** (⇧⌘L), from the command line (`spl
 
 A profile sets font, colours, 16-colour palette, cursor, opacity, scrollback, login shell, a custom command, what happens when the shell exits, whether the title bar shows, and whether new splits join the current group. Switch a terminal's profile from its right-click menu. Editing a profile updates every terminal using it immediately.
 
+**Settings → Profiles → Colours** has ready-made colour schemes (Dracula, Solarized Dark and Light, Nord, Gruvbox Dark, Tokyo Night, One Dark, Monokai) and a **Background opacity** slider from 30% to 100%. Text stays fully opaque. Changing a colour by hand shows the scheme as Custom.
+
 **Coming from Terminator?** Splitterm menu → **Import Terminator Config…** reads `~/.config/terminator/config` and imports its profiles and layouts.
 
 ## Config file

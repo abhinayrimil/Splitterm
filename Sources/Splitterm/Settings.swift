@@ -283,6 +283,10 @@ struct ProfileEditor: View {
                 Toggle("Blinking cursor", isOn: $profile.cursorBlink)
             }
             Section("Colours") {
+                Picker("Colour scheme", selection: schemeName) {
+                    Text("Custom").tag("")
+                    ForEach(TerminalScheme.all, id: \.name) { Text($0.name).tag($0.name) }
+                }
                 ColorPicker("Text", selection: colour($profile.foreground), supportsOpacity: false)
                 ColorPicker("Background", selection: colour($profile.background), supportsOpacity: false)
                 ColorPicker("Cursor", selection: colour($profile.cursorColor), supportsOpacity: false)
@@ -293,7 +297,7 @@ struct ProfileEditor: View {
                     paletteRow(8..<16)
                 }
                 HStack {
-                    Text("Window opacity")
+                    Text("Background opacity")
                     Slider(value: $profile.opacity, in: 0.3...1)
                     Text("\(Int(profile.opacity * 100))%").monospacedDigit().frame(width: 44, alignment: .trailing)
                 }
@@ -316,6 +320,12 @@ struct ProfileEditor: View {
             }
         }
         .formStyle(.grouped)
+    }
+
+    /// The scheme the profile's colours match, or "" once any colour has been hand-edited.
+    private var schemeName: Binding<String> {
+        Binding(get: { TerminalScheme.all.first { $0.matches(profile) }?.name ?? "" },
+                set: { name in TerminalScheme.all.first { $0.name == name }?.apply(to: &profile) })
     }
 
     private func paletteRow(_ range: Range<Int>) -> some View {
